@@ -1,0 +1,22 @@
+server:
+  port: 0
+
+spring:
+  cloud:
+    stream:
+      function:
+        definition: carReceiver
+      bindings:
+        carReceiver-in-0:
+          destination: carQueueTopic
+          group: my-group
+          content-type: application/json
+      
+      kafka:
+        binder:
+          minPartitionCount: 6
+          autoAddPartitions: true
+        bindings:
+          carReceiver-in-0:
+            consumer:
+              enable-dlq: true
